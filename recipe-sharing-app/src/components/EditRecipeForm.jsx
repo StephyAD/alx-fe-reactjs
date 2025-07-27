@@ -8,7 +8,7 @@ const EditRecipeForm = ({ recipe }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateRecipe({ ...recipe, title, description });
+    updateRecipe({ id: recipe.id, title, description });
     alert('Recipe updated!');
   };
 
@@ -18,10 +18,12 @@ const EditRecipeForm = ({ recipe }) => {
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        placeholder="Title"
       />
       <textarea
         value={description}
         onChange={(e) => setDescription(e.target.value)}
+        placeholder="Description"
       />
       <button type="submit">Update Recipe</button>
     </form>
