@@ -7,6 +7,11 @@ const useRecipeStore = create((set, get) => ({
   favorites: [],
   recommendations: [],
 
+  setRecipes: (recipes) => {
+    set({ recipes });
+    get().filterRecipes(); // Ensure filteredRecipes are updated
+  },
+
   setSearchTerm: (term) => {
     set({ searchTerm: term });
     get().filterRecipes();
