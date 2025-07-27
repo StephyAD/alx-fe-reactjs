@@ -8,7 +8,7 @@ import useRecipeStore from './components/recipeStore';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import RecipeList from './components/RecipeList';
 import AddRecipeForm from './components/AddRecipeForm';
-import RecipeDetails from './components/RecipeDetails';
+import RecipeDetail from './components/RecipeDetail';
 
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<><AddRecipeForm /><RecipeList /></>} />
-        <Route path="/recipe/:id" element={<RecipeDetails />} />
+        <Route path="/recipe/:id" element={<RecipeDetail />} />
       </Routes>
     </BrowserRouter>
 
