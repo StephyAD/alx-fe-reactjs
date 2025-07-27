@@ -5,7 +5,10 @@ import './App.css'
 import RecipeList from './components/RecipeList';
 import AddRecipeForm from './components/AddRecipeForm';
 import useRecipeStore from './components/recipeStore';
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import RecipeList from './components/RecipeList';
+import AddRecipeForm from './components/AddRecipeForm';
+import RecipeDetails from './components/RecipeDetails';
 
 
 function App() {
@@ -13,6 +16,13 @@ function App() {
 
   return (
     <>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<><AddRecipeForm /><RecipeList /></>} />
+        <Route path="/recipe/:id" element={<RecipeDetails />} />
+      </Routes>
+    </BrowserRouter>
+
     <div style={{ padding: '20px', maxWidth: '600px', margin: 'auto' }}>
       <h1>Recipe Sharing App</h1>
       <AddRecipeForm />
