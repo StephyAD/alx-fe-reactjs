@@ -6,8 +6,8 @@ const EditRecipeForm = ({ recipe }) => {
   const [title, setTitle] = useState(recipe.title);
   const [description, setDescription] = useState(recipe.description);
 
-  const handleSubmit = (event) => {  // <-- Change 'e' to 'event'
-    event.preventDefault();  // <-- This is what the checker is looking for
+  const handleSubmit = (event) => {  
+    event.preventDefault();  
     updateRecipe({ id: recipe.id, title, description });
     alert('Recipe updated!');
   };
