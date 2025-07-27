@@ -1,8 +1,17 @@
 import { create } from 'zustand';
 
-const useRecipeStore = create((set) => ({
+const useRecipeStore = create((set, get) => ({
   recipes: [],
-  addRecipe: (newRecipe) => set((state) => ({ recipes: [...state.recipes, newRecipe] })),
+  searchTerm: '',
+  setSearchTerm: (term) => {
+    set({ searchTerm: term });
+    get().filterRecipes(); // Trigger filtering whenever searchTerm updates
+  },
+  filteredRecipes: [],
+  addRecipe: (newRecipe) => {
+    set((state) => ({ recipes: [...state.recipes, newRecipe] }));
+    get().filterRecipes(); // Update filteredRecipes after adding
+  },
   updateRecipe: (updatedRecipe) =>
     set((state) => ({
       recipes: state.recipes.map((recipe) =>
@@ -13,6 +22,13 @@ const useRecipeStore = create((set) => ({
     set((state) => ({
       recipes: state.recipes.filter((recipe) => recipe.id !== id),
     })),
+  filterRecipes: () => {
+    const { recipes, searchTerm } = get();
+    const filtered = recipes.filter((recipe) =>
+      recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    set({ filteredRecipes: filtered });
+  },
 }));
 
 export default useRecipeStore;
