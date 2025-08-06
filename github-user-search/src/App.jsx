@@ -3,8 +3,6 @@ import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
 import Search from './components/Search';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -14,6 +12,8 @@ function App() {
       <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
         <h1>GitHub User Search</h1>
         <p>Start typing a GitHub username to search...</p>
+        {/* Include the Search Component */}
+        <Search />
       </div>
 
       <div>
