@@ -3,7 +3,8 @@ import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
 import SearchBar from './components/SearchBar';
-
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
 
 function App() {
   const [count, setCount] = useState(0);
