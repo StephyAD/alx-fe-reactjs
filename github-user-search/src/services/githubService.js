@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://api.github.com';
+const SEARCH_URL = 'https://api.github.com/search/users?q=';
 
 export const advancedUserSearch = async ({ username, location, minRepos }) => {
   let query = '';
@@ -9,12 +9,10 @@ export const advancedUserSearch = async ({ username, location, minRepos }) => {
   if (location) query += ` location:${location}`;
   if (minRepos) query += ` repos:>=${minRepos}`;
 
-  const url = `${BASE_URL}/search/users`;
+  const url = `${SEARCH_URL}${encodeURIComponent(query.trim())}`;
 
   try {
-    const response = await axios.get(url, {
-      params: { q: query.trim() },
-    });
+    const response = await axios.get(url);
     return response.data;
   } catch (error) {
     console.error('Advanced Search Error:', error);
@@ -24,7 +22,7 @@ export const advancedUserSearch = async ({ username, location, minRepos }) => {
 
 export const fetchUserData = async (username) => {
   try {
-    const response = await axios.get(`${BASE_URL}/users/${username}`);
+    const response = await axios.get(`https://api.github.com/users/${username}`);
     return response.data;
   } catch (error) {
     console.error('Fetch User Data Error:', error);
