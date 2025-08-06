@@ -1,48 +1,42 @@
 import { useState } from 'react';
-import { fetchUserData } from '../services/githubService';
+import axios from 'axios';
 
 const Search = () => {
-  const [username, setUsername] = useState('');
+  const [query, setQuery] = useState('');
   const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(false);
-    setUserData(null);
-
+  const handleSearch = async () => {
     try {
-      const data = await fetchUserData(username);
-      setUserData(data);
+      setError('');
+      setUserData(null);
+
+      const response = await axios.get(`https://api.github.com/users/${query}`);
+      setUserData(response.data);
     } catch (err) {
-      setError(true);
-    } finally {
-      setLoading(false);
+      setError("Looks like we cant find the user");
     }
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Enter GitHub username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <button type="submit">Search</button>
-      </form>
+    <div style={{ padding: '20px' }}>
+      <input
+        type="text"
+        placeholder="Enter GitHub username"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
+      <button onClick={handleSearch}>Search</button>
 
-      {loading && <p>Loading...</p>}
-      {error && <p>Looks like we can't find the user.</p>}
+      {error && <p>{error}</p>}
+
       {userData && (
         <div style={{ marginTop: '20px' }}>
-          <img src={userData.avatar_url} alt="avatar" width="100" />
-          <h3>{userData.login}</h3>
+          <img src={userData.avatar_url} alt="Avatar" width="100" />
+          <h2>{userData.name}</h2>
+          <p>{userData.bio}</p>
           <a href={userData.html_url} target="_blank" rel="noopener noreferrer">
-            View Profile
+            View GitHub Profile
           </a>
         </div>
       )}
