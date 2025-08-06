@@ -7,14 +7,14 @@ export const advancedSearchUsers = async (username, location, minRepos) => {
   if (location) query += `location:${location} `;
   if (minRepos) query += `repos:>${minRepos} `;
 
-  const response = await axios.get(`https://api.github.com/search/users`, {
-    params: { q: query.trim() },
+  const finalQuery = query.trim();
+
+  const response = await axios.get(`https://api.github.com/search/users?q=${finalQuery}`, {
     headers: {
       Authorization: `Bearer ${import.meta.env.VITE_GITHUB_TOKEN}`,
     },
   });
 
-  
   const detailedUsers = await Promise.all(
     response.data.items.map(async (user) => {
       const userDetails = await axios.get(user.url, {
