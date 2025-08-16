@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; //  import Link
 
 const HomePage = () => {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    fetch("/src/data.json") // fetch mock data
+    fetch("/data.json") // place data.json in public/ folder for fetch to work
       .then((response) => response.json())
       .then((data) => setRecipes(data))
       .catch((error) => console.error("Error loading recipes:", error));
@@ -12,7 +13,9 @@ const HomePage = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6 text-center">🍳 Recipe Sharing Platform</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        🍳 Recipe Sharing Platform
+      </h1>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
         {recipes.map((recipe) => (
           <div
@@ -29,9 +32,12 @@ const HomePage = () => {
                 {recipe.title}
               </h2>
               <p className="text-gray-600 mt-2">{recipe.summary}</p>
-              <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+              <Link
+                to={`/recipe/${recipe.id}`} //  navigate to detail page
+                className="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+              >
                 View Recipe
-              </button>
+              </Link>
             </div>
           </div>
         ))}
