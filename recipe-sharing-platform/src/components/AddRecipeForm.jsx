@@ -6,10 +6,8 @@ const AddRecipeForm = () => {
   const [steps, setSteps] = useState("");
   const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
 
-    // Validation
+  const validate = () => {
     const newErrors = {};
     if (!title.trim()) newErrors.title = "Recipe title is required.";
     if (!ingredients.trim() || ingredients.split("\n").length < 2) {
@@ -17,12 +15,18 @@ const AddRecipeForm = () => {
     }
     if (!steps.trim()) newErrors.steps = "Preparation steps are required.";
 
+    return newErrors;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const newErrors = validate(); 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
-    // create recipe object
     const newRecipe = {
       id: Date.now(),
       title,
@@ -30,7 +34,7 @@ const AddRecipeForm = () => {
       instructions: steps.split("\n"),
     };
 
-    console.log("New Recipe Submitted:", newRecipe);
+    console.log("✅ New Recipe Submitted:", newRecipe);
 
     // Reset form
     setTitle("");
