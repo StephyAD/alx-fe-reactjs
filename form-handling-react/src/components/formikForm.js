@@ -2,84 +2,134 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-// Yup Validation Schema
-const RegistrationSchema = Yup.object().shape({
+const validationSchema = Yup.object({
   username: Yup.string().required("Username is required"),
-  email: Yup.string().email("Invalid email format").required("Email is required"),
-  password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+  email: Yup.string()
+    .email("Invalid email format")
+    .required("Email is required"),
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
 });
 
-const FormikForm = () => {
-  return (
-    <div className="max-w-md mx-auto p-6 border rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold mb-4">User Registration (Formik)</h1>
+function formikForm() {
+  return React.createElement(
+    Formik,
+    {
+      initialValues: { username: "", email: "", password: "" },
+      validationSchema: validationSchema,
+      onSubmit: (values, { setSubmitting }) => {
+        console.log("Formik Form Submitted:", values);
+        alert("Formik registration successful!");
+        setSubmitting(false);
+      },
+    },
 
-      <Formik
-        initialValues={{ username: "", email: "", password: "" }}
-        validationSchema={RegistrationSchema}
-        onSubmit={(values, { resetForm }) => {
-          console.log("Submitting to API:", values);
-          alert("Registered successfully!");
-          resetForm();
-        }}
-      >
-        {() => (
-          <Form className="space-y-4">
-            {/* Username */}
-            <div>
-              <Field
-                name="username"
-                placeholder="Username"
-                className="w-full border p-2 rounded"
-              />
-              <ErrorMessage
-                name="username"
-                component="p"
-                className="text-red-500 text-sm"
-              />
-            </div>
+    (formikProps) =>
+      React.createElement(
+        Form,
+        {
+          className:
+            "bg-white shadow-lg rounded-xl p-6 w-80 flex flex-col gap-4",
+        },
+        [
+          React.createElement(
+            "h2",
+            {
+              key: "title",
+              className: "text-xl font-bold text-gray-700 text-center",
+            },
+            "Formik & Yup Form"
+          ),
 
-            {/* Email */}
-            <div>
-              <Field
-                type="email"
-                name="email"
-                placeholder="Email"
-                className="w-full border p-2 rounded"
-              />
-              <ErrorMessage
-                name="email"
-                component="p"
-                className="text-red-500 text-sm"
-              />
-            </div>
+          React.createElement("div", { key: "username", className: "" }, [
+            React.createElement(
+              "label",
+              {
+                htmlFor: "username",
+                key: "ulabel",
+                className: "block mb-1 font-medium text-sm",
+              },
+              "Username"
+            ),
+            React.createElement(Field, {
+              key: "ufield",
+              type: "text",
+              name: "username",
+              className:
+                "w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500",
+            }),
+            React.createElement(ErrorMessage, {
+              key: "uerror",
+              name: "username",
+              component: "p",
+              className: "text-red-500 text-sm mt-1",
+            }),
+          ]),
 
-            {/* Password */}
-            <div>
-              <Field
-                type="password"
-                name="password"
-                placeholder="Password"
-                className="w-full border p-2 rounded"
-              />
-              <ErrorMessage
-                name="password"
-                component="p"
-                className="text-red-500 text-sm"
-              />
-            </div>
+          React.createElement("div", { key: "email", className: "" }, [
+            React.createElement(
+              "label",
+              {
+                htmlFor: "email",
+                key: "elabel",
+                className: "block mb-1 font-medium text-sm",
+              },
+              "Email"
+            ),
+            React.createElement(Field, {
+              key: "efield",
+              type: "email",
+              name: "email",
+              className:
+                "w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500",
+            }),
+            React.createElement(ErrorMessage, {
+              key: "eerror",
+              name: "email",
+              component: "p",
+              className: "text-red-500 text-sm mt-1",
+            }),
+          ]),
 
-            <button
-              type="submit"
-              className="w-full bg-green-500 text-white font-semibold p-2 rounded hover:bg-green-600"
-            >
-              Register
-            </button>
-          </Form>
-        )}
-      </Formik>
-    </div>
+          React.createElement("div", { key: "password", className: "" }, [
+            React.createElement(
+              "label",
+              {
+                htmlFor: "password",
+                key: "plabel",
+                className: "block mb-1 font-medium text-sm",
+              },
+              "Password"
+            ),
+            React.createElement(Field, {
+              key: "pfield",
+              type: "password",
+              name: "password",
+              className:
+                "w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500",
+            }),
+            React.createElement(ErrorMessage, {
+              key: "perror",
+              name: "password",
+              component: "p",
+              className: "text-red-500 text-sm mt-1",
+            }),
+          ]),
+
+          React.createElement(
+            "button",
+            {
+              type: "submit",
+              key: "button",
+              className:
+                "mt-1 bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 transition",
+            },
+            "Register"
+          ),
+        ]
+      )
   );
-};
+}
 
-export default FormikForm;
+export default formikForm;
