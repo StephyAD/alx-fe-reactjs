@@ -1,14 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 
-async function fetchPosts() {
-  const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
-}
+// API function
+const fetchPosts = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+  if (!res.ok) throw new Error("Network response was not ok");
+  return res.json();
+};
 
-function PostsComponent() {
+export default function PostsComponent() {
   const {
     data: posts,
     error,
@@ -19,29 +18,36 @@ function PostsComponent() {
   } = useQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts,
-    staleTime: 5000,
-    cacheTime: 1000 * 60 * 5,
+    staleTime: 5000,              // data stays fresh for 5s
+    cacheTime: 1000 * 60 * 5,     // ✅ keep cache for 5 minutes
+    refetchOnWindowFocus: false,  // avoid auto refetch on tab switch
+    keepPreviousData: true,       // ✅ keep old data while fetching new
   });
 
   if (isLoading) return <p>Loading posts...</p>;
-  if (isError) return <p>Error: {error.message}</p>;
+  if (isError) return <p className="text-red-500">Error: {error.message}</p>;
 
   return (
-    <div>
-      <button onClick={() => refetch()} disabled={isFetching}>
-        {isFetching ? "Refreshing..." : "Refetch Posts"}
-      </button>
+    <div className="p-4 w-[600px] space-y-4 border rounded shadow">
+      <h2 className="text-xl font-bold flex justify-between items-center">
+        Posts
+        <button
+          onClick={() => refetch()}
+          className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+          disabled={isFetching}
+        >
+          {isFetching ? "Refreshing..." : "Refresh"}
+        </button>
+      </h2>
 
-      <ul>
+      <ul className="space-y-2">
         {posts.slice(0, 10).map((post) => (
-          <li key={post.id}>
-            <strong>{post.title}</strong>
-            <p>{post.body}</p>
+          <li key={post.id} className="p-2 border-b">
+            <h3 className="font-semibold">{post.title}</h3>
+            <p className="text-sm text-gray-700">{post.body}</p>
           </li>
         ))}
       </ul>
     </div>
   );
 }
-
-export default PostsComponent;
