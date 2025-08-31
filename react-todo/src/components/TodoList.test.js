@@ -11,7 +11,7 @@ describe("TodoList Component", () => {
 
   test("adds a new todo", () => {
     render(<TodoList />);
-    const input = screen.getByPlaceholderText("Add new todo");
+    const input = screen.getByPlaceholderText("Add a new todo");
     const button = screen.getByText("Add");
 
     fireEvent.change(input, { target: { value: "Write Tests" } });

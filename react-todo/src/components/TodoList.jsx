@@ -7,7 +7,6 @@ function TodoList() {
   ]);
   const [newTodo, setNewTodo] = useState("");
 
-  // Add todo
   const addTodo = (e) => {
     e.preventDefault();
     if (!newTodo.trim()) return;
@@ -15,7 +14,6 @@ function TodoList() {
     setNewTodo("");
   };
 
-  // Toggle todo
   const toggleTodo = (id) => {
     setTodos(
       todos.map((todo) =>
@@ -24,7 +22,6 @@ function TodoList() {
     );
   };
 
-  // Delete todo
   const deleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
@@ -44,9 +41,14 @@ function TodoList() {
 
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id} style={{ textDecoration: todo.completed ? "line-through" : "none" }}>
-            <span onClick={() => toggleTodo(todo.id)}>{todo.text}</span>
-            <button onClick={() => deleteTodo(todo.id)}>❌</button>
+          <li key={todo.id}>
+            <span
+              onClick={() => toggleTodo(todo.id)}
+              style={{ textDecoration: todo.completed ? "line-through" : "none" }}
+            >
+              {todo.text}
+            </span>
+            <button data-testid="delete-btn" onClick={() => deleteTodo(todo.id)}>❌</button>
           </li>
         ))}
       </ul>
