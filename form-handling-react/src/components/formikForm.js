@@ -1,61 +1,51 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-export default function FormikForm() {
-  // Validation schema using Yup
-  const validationSchema = Yup.object({
-    username: Yup.string().required("Username is required"),
-    email: Yup.string().email("Invalid email").required("Email is required"),
-    password: Yup.string().min(6, "Password must be at least 6 chars").required("Password is required"),
-  });
+const validationSchema = Yup.object({
+  username: Yup.string().required("Username is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  password: Yup.string().min(6, "Password must be at least 6 chars").required("Password is required"),
+});
+
+function FormikForm() {
+  const handleSubmit = (values, { resetForm }) => {
+    console.log("Formik registered:", values); // simulate API call
+    alert("Registration successful with Formik!");
+    resetForm();
+  };
 
   return (
-    <Formik
-      initialValues={{ username: "", email: "", password: "" }}
-      validationSchema={validationSchema}
-      onSubmit={(values, { resetForm }) => {
-        console.log("Formik submitted:", values);
-        // mock API call
-        fetch("https://jsonplaceholder.typicode.com/users", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(values),
-        })
-          .then((res) => res.json())
-          .then((data) => console.log("API Response:", data));
-        resetForm();
-      }}
-    >
-      {() => (
-        <Form className="p-4 border rounded w-80 space-y-4">
-          <h2 className="text-xl font-bold">Formik Registration Form</h2>
-
+    <div>
+      <h2>Formik Registration Form</h2>
+      <Formik
+        initialValues={{ username: "", email: "", password: "" }}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        <Form>
           <div>
             <label>Username:</label>
-            <Field name="username" type="text" className="border w-full p-1 rounded" />
-            <ErrorMessage name="username" component="p" className="text-red-500" />
+            <Field type="text" name="username" />
+            <ErrorMessage name="username" component="p" style={{ color: "red" }} />
           </div>
 
           <div>
             <label>Email:</label>
-            <Field name="email" type="email" className="border w-full p-1 rounded" />
-            <ErrorMessage name="email" component="p" className="text-red-500" />
+            <Field type="email" name="email" />
+            <ErrorMessage name="email" component="p" style={{ color: "red" }} />
           </div>
 
           <div>
             <label>Password:</label>
-            <Field name="password" type="password" className="border w-full p-1 rounded" />
-            <ErrorMessage name="password" component="p" className="text-red-500" />
+            <Field type="password" name="password" />
+            <ErrorMessage name="password" component="p" style={{ color: "red" }} />
           </div>
 
-          <button
-            type="submit"
-            className="bg-green-500 text-white p-2 rounded hover:bg-green-600"
-          >
-            Register
-          </button>
+          <button type="submit">Register</button>
         </Form>
-      )}
-    </Formik>
+      </Formik>
+    </div>
   );
 }
+
+export default FormikForm;
