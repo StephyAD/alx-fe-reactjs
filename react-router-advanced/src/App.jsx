@@ -13,7 +13,7 @@ function App() {
           <Link to="/">Home</Link> |{" "}
           <Link to="/about">About</Link> |{" "}
           <Link to="/profile">Profile</Link> |{" "}
-          <Link to="/posts/1">Blog Post 1</Link>
+          <Link to="/blog/1">Blog Post 1</Link>
         </nav>
 
         <Routes>
@@ -21,8 +21,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
 
-          {/* Dynamic Route */}
-          <Route path="/posts/:id" element={<BlogPost />} />
+          {/* Dynamic Route → must be /blog/:id */}
+          <Route path="/blog/:id" element={<BlogPost />} />
 
           {/* Protected + Nested Routes */}
           <Route
